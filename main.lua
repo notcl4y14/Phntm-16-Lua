@@ -3,6 +3,10 @@ local Cartridge = require("cartridge")
 local loadedCart = nil
 local font = nil
 
+function isCartLoaded()
+	return loadedCart ~= nil
+end
+
 function love.load()
 
 	font = love.graphics.newFont("assets/PixelifySans.ttf")
@@ -10,7 +14,7 @@ function love.load()
 
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
-	if loadedCart ~= nil then
+	if isCartLoaded() then
 		loadedCart:load()
 	end
 
@@ -18,7 +22,7 @@ end
 
 function love.update(dt)
 
-	if loadedCart ~= nil then
+	if isCartLoaded() then
 		loadedCart:update(dt)
 	end
 
@@ -26,7 +30,7 @@ end
 
 function love.draw()
 
-	if loadedCart ~= nil then
+	if isCartLoaded() then
 		loadedCart:draw()
 	else
 		love.graphics.print("Drag 'n Drop file onto the window", 10, 10)
