@@ -10,31 +10,6 @@ function isCartLoaded()
 	return loadedCart ~= nil
 end
 
--- function getLetterbox()
--- 	local windowWidth = love.graphics.getWidth()
--- 	local windowHeight = love.graphics.getHeight()
-
--- 	if windowWidth == windowHeight then
--- 		return { scale = windowWidth / 256, x = 0, y = 0 }
--- 	end
-
--- 	if windowWidth > windowHeight then
--- 		return {
--- 			scale = windowHeight / 256,
--- 			x = windowWidth / 2 - 256 / 2,
--- 			y = 0
--- 		}
--- 	end
-
--- 	if windowHeight > windowWidth then
--- 		return {
--- 			scale = windowWidth / 256,
--- 			x = 0,
--- 			y = windowHeight / 2 - 256 / 2
--- 		}
--- 	end
--- end
-
 function love.load()
 
 	love.graphics.setDefaultFilter("nearest", "nearest")
@@ -64,19 +39,11 @@ end
 function love.draw()
 
 	if isCartLoaded() then
-		-- local letterbox = getLetterbox()
-
-		-- love.graphics.push()
-		-- love.graphics.translate(letterbox.x, letterbox.y)
-		-- love.graphics.scale(letterbox.scale, letterbox.scale)
-
 		lovesize:begin()
 
 		loadedCart:draw()
 
 		lovesize:finish()
-
-		-- love.graphics.pop()
 	else
 		love.graphics.print("Drag 'n Drop file onto the window", 10, 10)
 	end
