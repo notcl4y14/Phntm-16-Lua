@@ -1,7 +1,3 @@
-local a = {}
-
-local colors = require("../common/colors")
-
 local tileWidth = 256 / 10
 local tileHeight = 256 / 10
 
@@ -21,15 +17,8 @@ local function draw()
 			y = y + 1
 		end
 
-		love.graphics.setColor(colors[i])
-		love.graphics.rectangle("fill", x * tileWidth, y * tileHeight, tileWidth, tileHeight)
+		fillrect(x * tileWidth, y * tileHeight, tileWidth, tileHeight, i)
 
 		x = x + 1
 	end
 end
-
-a.load = load
-a.update = update
-a.draw = draw
-
-return a

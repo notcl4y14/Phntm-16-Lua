@@ -1,8 +1,3 @@
-local a = {}
-
--- local clear = require("../core/clear")
-local colors = require("../common/colors")
-
 local str = "Hello World!"
 local charWidth = 8
 local charHeight = 5
@@ -21,18 +16,10 @@ local function update(dt)
 end
 
 local function draw()
-	-- clear(1)
 	local strLength = #str
 
 	for i = 0, strLength do
 		local char = string.sub(str, i, i)
-		love.graphics.setColor(colors[i + 2])
-		love.graphics.print(char, x + i * charWidth, y + getSinY(i))
+		filltext(char, x + i * charWidth, y + getSinY(i), i + 2)
 	end
 end
-
-a.load = load
-a.update = update
-a.draw = draw
-
-return a

@@ -1,4 +1,5 @@
 local Cartridge = require("cartridge")
+local loadFolder = require("loader")
 
 local loadedCart = nil
 local font = nil
@@ -13,6 +14,9 @@ function love.load()
 	love.graphics.setFont(font)
 
 	love.graphics.setDefaultFilter("nearest", "nearest")
+
+	loadFolder("common")()
+	loadFolder("core")()
 
 	if isCartLoaded() then
 		loadedCart:load()
@@ -41,5 +45,6 @@ end
 function love.filedropped(file)
 	file:open("r")  -- using file for reading
 	local data = file:read()
+	data = data .. "\nreturn { load=load, update=update, draw=draw }"
 	loadedCart = loadstring(data)()
 end
