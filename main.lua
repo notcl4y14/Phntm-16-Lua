@@ -1,28 +1,41 @@
 local Cartridge = require("cartridge")
 
-local cart = Cartridge:new(
-	-- load()
-	function()
-	end,
-
-	-- update(dt)
-	function(dt)
-	end,
-
-	-- draw()
-	function()
-		love.graphics.print("Hello World!", 10, 10)
-	end
-)
+local loadedCart = nil
+local font = nil
 
 function love.load()
-	cart:load()
+
+	font = love.graphics.newFont("assets/PixelifySans.ttf")
+	love.graphics.setFont(font)
+
+	love.graphics.setDefaultFilter("nearest", "nearest")
+
+	if loadedCart ~= nil then
+		loadedCart:load()
+	end
+
 end
 
 function love.update(dt)
-	cart:update(dt)
+
+	if loadedCart ~= nil then
+		loadedCart:update(dt)
+	end
+
 end
 
 function love.draw()
-	cart:draw()
+
+	if loadedCart ~= nil then
+		loadedCart:draw()
+	else
+		love.graphics.print("Drag 'n Drop file onto the window", 10, 10)
+	end
+
+end
+
+function love.filedropped(file)
+	file:open("r")  -- using file for reading
+	local data = file:read()
+	loadedCart = loadstring(data)()
 end
