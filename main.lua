@@ -4,10 +4,16 @@ local loadFolder = require("loader")
 
 local loadedCart = nil
 local font = nil
+local debug = true
 local fullscreen = false
 
 function isCartLoaded()
 	return loadedCart ~= nil
+end
+
+function loadCart(cart)
+	loadedCart = cart
+	loadedCart:load()
 end
 
 function love.load()
@@ -22,16 +28,18 @@ function love.load()
 	loadFolder("common")()
 	loadFolder("core")()
 
-	if isCartLoaded() then
-		loadedCart:load()
-	end
-
 end
 
 function love.update(dt)
 
+	if love.keyboard.isDown("tab") then
+		dt = 10
+	else
+		dt = 1
+	end
+
 	if isCartLoaded() then
-		loadedCart:update(dt)
+		loadedCart.update(dt)
 	end
 
 end
@@ -45,7 +53,15 @@ function love.draw()
 
 		lovesize:finish()
 	else
-		love.graphics.print("Drag 'n Drop file onto the window", 10, 10)
+		love.graphics.print("No cart loaded", 0, 0)
+		love.graphics.print("Drag 'n Drop file onto the window", 0, 10)
+	end
+
+	if debug then
+		love.graphics.setColor(0, 0, 0, 0.5)
+		love.graphics.rectangle("fill", 10, 10, 50, 20)
+		love.graphics.setColor(1, 1, 1)
+		love.graphics.print("FPS: " .. love.timer.getFPS(), 12, 12)
 	end
 
 end
@@ -69,7 +85,8 @@ function love.filedropped(file)
 	file:open("r")  -- using file for reading
 	local data = file:read()
 	data = data .. "\nreturn { load=load, update=update, draw=draw }"
-	loadedCart = loadstring(data)()
+	local cartData = loadstring(data)()
+	loadCart(cartData)
 end
 
 function love.resize(width, height)
