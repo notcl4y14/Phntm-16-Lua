@@ -66,13 +66,13 @@ local function draw()
 
 	-- Draw Sky
 	for i = 0, 10 do
-		love.graphics.push()
-		love.graphics.translate(-sky_width * 10, 0)
-		love.graphics.shear(1, 0)
+		push()
+		translate(-sky_width * 10, 0)
+		shear(1, 0)
 
 		fillrect(sky_xPos + i * (sky_width * 2), 0, sky_width, 256, 18)
 
-		love.graphics.pop()
+		pop()
 	end
 
 	-- Draw Clouds

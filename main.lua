@@ -59,9 +59,9 @@ function love.draw()
 
 	if debug then
 		love.graphics.setColor(0, 0, 0, 0.5)
-		love.graphics.rectangle("fill", 10, 10, 50, 20)
+		love.graphics.rectangle("fill", 2, 2, 50, 14)
 		love.graphics.setColor(1, 1, 1)
-		love.graphics.print("FPS: " .. love.timer.getFPS(), 12, 12)
+		love.graphics.print("FPS: " .. love.timer.getFPS(), 2, 1)
 	end
 
 end
