@@ -1,5 +1,7 @@
-local x = 0
-local width = 256 / 10
+-- Sky
+local sky_xPos = 0
+local sky_width = 256 / 10
+-- Cloud
 local clouds = {}
 local cloudWidth = 80
 local cloudHeight = 20
@@ -16,9 +18,6 @@ end
 
 -- Main
 local function load()
-	-- table.insert(clouds, { 20, 20, 10 })
-	-- table.insert(clouds, { 80, 50, 5 })
-	
 	-- Spawn 8 clouds on random positions
 	for i = 1, 8 do
 		local parallax = love.math.random() * 10 + 5
@@ -30,10 +29,10 @@ end
 
 local function update(dt)
 	-- Sky
-	x = x + 1 * dt
+	sky_xPos = sky_xPos + 1 * dt
 
-	if x >= width then
-		x = -width
+	if sky_xPos >= sky_width then
+		sky_xPos = -sky_width
 	end
 
 	-- Clouds
@@ -68,10 +67,10 @@ local function draw()
 	-- Draw Sky
 	for i = 0, 10 do
 		love.graphics.push()
-		love.graphics.translate(-width * 10, 0)
+		love.graphics.translate(-sky_width * 10, 0)
 		love.graphics.shear(1, 0)
 
-		fillrect(x + i * (width * 2), 0, width, 256, 18)
+		fillrect(sky_xPos + i * (sky_width * 2), 0, sky_width, 256, 18)
 
 		love.graphics.pop()
 	end
@@ -83,11 +82,4 @@ local function draw()
 		local parallax = clouds[i][3]
 		drawCloud(x / parallax, y, cloudWidth, cloudHeight)
 	end
-
-	-- fillrect(16, 24, 80, 20, 4)
-	-- fillrect(20, 20, 80, 20, 1)
-
-	-- drawCloud(20 / x, 20, 80, 20)
-
-	-- drawCloud((i + 20) / 10, 20, 80, 20)
 end
