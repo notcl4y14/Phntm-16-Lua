@@ -38,6 +38,28 @@ function love.update(dt)
 		dt = 1
 	end
 
+	if _btnp[0] > 0 then
+		_btnp[0] = _btnp[0] + 1
+	elseif _btnp[1] > 0 then
+		_btnp[1] = _btnp[1] + 1
+	elseif _btnp[2] > 0 then
+		_btnp[2] = _btnp[2] + 1
+	elseif _btnp[3] > 0 then
+		_btnp[3] = _btnp[3] + 1
+	elseif _btnp[4] > 0 then
+		_btnp[4] = _btnp[4] + 1
+	elseif _btnp[5] > 0 then
+		_btnp[5] = _btnp[5] + 1
+	elseif _btnp[6] > 0 then
+		_btnp[6] = _btnp[6] + 1
+	elseif _btnp[7] > 0 then
+		_btnp[7] = _btnp[7] + 1
+	elseif _btnp[8] > 0 then
+		_btnp[8] = _btnp[8] + 1
+	elseif _btnp[9] > 0 then
+		_btnp[9] = _btnp[9] + 1
+	end
+
 	if isCartLoaded() then
 		loadedCart.update(dt)
 	end
@@ -78,6 +100,52 @@ function love.keypressed(key)
 			love.window.setMode(256, 256, { resizable = true, borderless = false })
 			love.resize(256, 256)
 		end
+	end
+
+	if key == _buttons[0] then
+		_btnp[0] = _btnp[0] + 1
+	elseif key == _buttons[1] then
+		_btnp[1] = _btnp[1] + 1
+	elseif key == _buttons[2] then
+		_btnp[2] = _btnp[2] + 1
+	elseif key == _buttons[3] then
+		_btnp[3] = _btnp[3] + 1
+	elseif key == _buttons[4] then
+		_btnp[4] = _btnp[4] + 1
+	elseif key == _buttons[5] then
+		_btnp[5] = _btnp[5] + 1
+	elseif key == _buttons[6] then
+		_btnp[6] = _btnp[6] + 1
+	elseif key == _buttons[7] then
+		_btnp[7] = _btnp[7] + 1
+	elseif key == _buttons[8] then
+		_btnp[8] = _btnp[8] + 1
+	elseif key == _buttons[9] then
+		_btnp[9] = _btnp[9] + 1
+	end
+end
+
+function love.keyreleased(key)
+	if key == _buttons[0] then
+		_btnp[0] = 0
+	elseif key == _buttons[1] then
+		_btnp[1] = 0
+	elseif key == _buttons[2] then
+		_btnp[2] = 0
+	elseif key == _buttons[3] then
+		_btnp[3] = 0
+	elseif key == _buttons[4] then
+		_btnp[4] = 0
+	elseif key == _buttons[5] then
+		_btnp[5] = 0
+	elseif key == _buttons[6] then
+		_btnp[6] = 0
+	elseif key == _buttons[7] then
+		_btnp[7] = 0
+	elseif key == _buttons[8] then
+		_btnp[8] = 0
+	elseif key == _buttons[9] then
+		_btnp[9] = 0
 	end
 end
 
