@@ -1,8 +1,9 @@
 local lovesize = require("lib/lovesize")
+local nativefs = require("lib/nativefs")
 local Cartridge = require("cartridge")
 local loadFolder = require("loader")
 
-local loadedCart = nil
+loadedCart = nil
 local font = nil
 local debug = true
 local fullscreen = false
@@ -11,8 +12,8 @@ function isCartLoaded()
 	return loadedCart ~= nil
 end
 
-function loadCart(cart)
-	loadedCart = cart
+function loadCart(cart, spritesheet)
+	loadedCart = Cartridge:new(cart.load, cart.update, cart.draw, spritesheet)
 	loadedCart:load()
 end
 
@@ -150,11 +151,26 @@ function love.keyreleased(key)
 end
 
 function love.filedropped(file)
+	local filename = file:getFilename()
+
 	file:open("r")  -- using file for reading
 	local data = file:read()
 	data = data .. "\nreturn { load=load, update=update, draw=draw }"
+
+	-- https://stackoverflow.com/a/18884539/22146374
+	-- https://stackoverflow.com/a/77810559/22146374
+	local filenameNoExt = filename:match("(.+)%..+")
+
 	local cartData = loadstring(data)()
-	loadCart(cartData)
+	local spritesheet = nil
+
+	if nativefs.getInfo(filenameNoExt .. ".png") ~= nil then
+		local filedata = nativefs.newFileData(filenameNoExt .. ".png")
+		spritesheet = love.graphics.newImage(filedata)
+		-- print("Spritesheet found!")
+	end
+
+	loadCart(cartData, spritesheet)
 end
 
 function love.resize(width, height)
