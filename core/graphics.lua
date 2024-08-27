@@ -17,8 +17,16 @@ function shear(x, y)
 	love.graphics.shear(x, y)
 end
 
+function scale(x, y)
+	love.graphics.scale(x, y)
+end
+
 function translate(x, y)
 	love.graphics.translate(x, y)
+end
+
+function color(color)
+	_color = _colors[color]
 end
 
 function spr(i, x, y, w, h)
