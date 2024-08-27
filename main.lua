@@ -12,8 +12,17 @@ function isCartLoaded()
 	return loadedCart ~= nil
 end
 
-function loadCart(cart, spritesheet)
-	loadedCart = Cartridge:new(cart.load, cart.update, cart.draw, spritesheet)
+function loadCart(spritesheet, data)
+	local cartData, err = loadstring(data)
+
+	if err then
+		print(err)
+		return
+	end
+
+	cartData = cartData()
+
+	loadedCart = Cartridge:new(cartData.load, cartData.update, cartData.draw, spritesheet, data)
 	loadedCart:load()
 end
 
@@ -103,6 +112,10 @@ function love.keypressed(key)
 		end
 	end
 
+	if key == "r" and love.keyboard.isDown("lctrl") then
+		loadCart(loadedCart.spritesheet, loadedCart.data)
+	end
+
 	if key == _buttons[0] then
 		_btnp[0] = _btnp[0] + 1
 	elseif key == _buttons[1] then
@@ -157,19 +170,11 @@ function love.filedropped(file)
 	local data = file:read()
 	data = data .. "\nreturn { load=load, update=update, draw=draw }"
 
+	local spritesheet = nil
+
 	-- https://stackoverflow.com/a/18884539/22146374
 	-- https://stackoverflow.com/a/77810559/22146374
 	local filenameNoExt = filename:match("(.+)%..+")
-
-	local cartData, err = loadstring(data)
-	local spritesheet = nil
-
-	if err then
-		print(err)
-		return
-	end
-
-	cartData = cartData()
 
 	if nativefs.getInfo(filenameNoExt .. ".png") ~= nil then
 		local filedata = nativefs.newFileData(filenameNoExt .. ".png")
@@ -177,7 +182,7 @@ function love.filedropped(file)
 		-- print("Spritesheet found!")
 	end
 
-	loadCart(cartData, spritesheet)
+	loadCart(spritesheet, data)
 end
 
 function love.resize(width, height)
