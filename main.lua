@@ -161,8 +161,15 @@ function love.filedropped(file)
 	-- https://stackoverflow.com/a/77810559/22146374
 	local filenameNoExt = filename:match("(.+)%..+")
 
-	local cartData = loadstring(data)()
+	local cartData, err = loadstring(data)
 	local spritesheet = nil
+
+	if err then
+		print(err)
+		return
+	end
+
+	cartData = cartData()
 
 	if nativefs.getInfo(filenameNoExt .. ".png") ~= nil then
 		local filedata = nativefs.newFileData(filenameNoExt .. ".png")
