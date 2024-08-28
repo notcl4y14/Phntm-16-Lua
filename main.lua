@@ -12,7 +12,13 @@ function isCartLoaded()
 	return loadedCart ~= nil
 end
 
-function loadCart(spritesheet, data)
+function loadCart(spritesheet, filename)
+	local file = nativefs.newFile(filename)
+	file:open("r")
+	
+	local data = file:read()
+	data = data .. "\nreturn { load=load, update=update, draw=draw }"
+	
 	local cartData, err = loadstring(data)
 
 	if err then
@@ -22,7 +28,7 @@ function loadCart(spritesheet, data)
 
 	cartData = cartData()
 
-	loadedCart = Cartridge:new(cartData.load, cartData.update, cartData.draw, spritesheet, data)
+	loadedCart = Cartridge:new(cartData.load, cartData.update, cartData.draw, spritesheet, filename)
 	loadedCart:load()
 end
 
@@ -113,7 +119,7 @@ function love.keypressed(key)
 	end
 
 	if key == "r" and love.keyboard.isDown("lctrl") then
-		loadCart(loadedCart.spritesheet, loadedCart.data)
+		loadCart(loadedCart.spritesheet, loadedCart.filename)
 	end
 
 	if key == _buttons[0] then
@@ -166,10 +172,6 @@ end
 function love.filedropped(file)
 	local filename = file:getFilename()
 
-	file:open("r")  -- using file for reading
-	local data = file:read()
-	data = data .. "\nreturn { load=load, update=update, draw=draw }"
-
 	local spritesheet = nil
 
 	-- https://stackoverflow.com/a/18884539/22146374
@@ -182,7 +184,7 @@ function love.filedropped(file)
 		-- print("Spritesheet found!")
 	end
 
-	loadCart(spritesheet, data)
+	loadCart(spritesheet, filename)
 end
 
 function love.resize(width, height)

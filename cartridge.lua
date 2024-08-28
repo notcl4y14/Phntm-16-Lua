@@ -1,12 +1,12 @@
 local Cartridge = {
 	spritesheet = nil,
-	data = nil
+	filename = nil
 }
 Cartridge.__index = Cartridge
 
 -- TODO: Change how the cartridge works
 -- later
-function Cartridge:new(load, update, draw, image, data)
+function Cartridge:new(load, update, draw, image, filename)
 	local image = image or love.graphics.newImage(
 		love.image.newImageData(256, 256))
 	local new = setmetatable({}, Cartridge)
@@ -16,7 +16,7 @@ function Cartridge:new(load, update, draw, image, data)
 	new.draw = draw
 
 	new.spritesheet = image
-	new.data = data
+	new.filename = filename
 
 	return new
 end
